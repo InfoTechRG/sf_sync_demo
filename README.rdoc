@@ -1,0 +1,5 @@
+== Salesforce Sync Demo
+This demo app demonstrates a basic use of the salesforce_ar_sync gem. It is setup to be deployed to Heroku. To try it out you will need 2 things:
+
+<pre>
+</pre>
