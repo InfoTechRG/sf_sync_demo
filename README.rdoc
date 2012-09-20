@@ -1,5 +1,4 @@
 == Salesforce Sync Demo
-This demo app demonstrates a basic use of the salesforce_ar_sync gem. It is setup to be deployed to Heroku. To try it out you will need 2 things:
+This demo app demonstrates a basic use of the salesforce_ar_sync gem. It is setup to be deployed to Heroku. To try it out you will need a Salesforce sandbox, and somewhere to deploy the app.
 
-<pre>
-</pre>
+Clone the application, copy the example yml files in the config directory substituting your own credentials and Organization Id.
