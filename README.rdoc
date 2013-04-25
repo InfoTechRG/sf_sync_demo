@@ -1,4 +1,43 @@
-== Salesforce Sync Demo
+= Salesforce Sync Demo
 This demo app demonstrates a basic use of the salesforce_ar_sync gem. It is setup to be deployed to Heroku. To try it out you will need a Salesforce sandbox, and somewhere to deploy the app.
 
-Clone the application, copy the example yml files in the config directory substituting your own credentials and Organization Id.
+
+== Deploying to Heroku
+You'll need a Heroku account and to have the Heroku Toolbelt installed to follow these instructions.
+
+Start by cloning the repository.
+  git clone git://github.com/InfoTech/sf_sync_demo.git
+  cd sf_sync_demo
+
+Then login to heroku and create a new app.
+  heroku login
+  heroko create
+
+Set your configuration values
+  heroku config:set SALESFORCE_AR_SYNC_IP_RANGES=204.14.232.0/23,204.14.237.0/24,96.43.144.0/22,96.43.148.0/22,204.14.234.0/23,204.14.238.0/23,182.50.76.0/22
+  heroku config:set SALESFORCE_AR_SYNC_ORGANIZATION_ID=
+  heroku config:set SALESFORCE_AR_SYNC_SYNC_ENABLED=true
+
+  heroku config:set DATABASEDOTCOM_CLIENT_ID=
+  heroku config:set DATABASEDOTCOM_CLIENT_SECRET=
+  heroku config:set DATABASEDOTCOM_HOST=test.salesforce.com
+  heroku config:set DATABASEDOTCOM_PASSWORD=
+  heroku config:set DATABASEDOTCOM_USERNAME=
+
+Get the Heroku Postgres Addon
+  heroku addons:add heroku-postgresql:dev
+
+This will setup a database and give you a configuration variable that looks something like this: HEROKU_POSTGRESQL_MAROON_URL. You'll want to promote this as your primary database.
+  heroku pg:promote HEROKU_POSTGRESQL_MAROON_URL
+
+Now you are ready to to deploy the code and setup the database.
+  git push heroku master
+  heroku run rake db:migrate
+  heroku restart
+
+If you want to be able to process Salesforce Outbound messages, you'll need to start up a worker process. Keep in mind that this pushes you out of the free usage, and you'll be charged for any time the worker is running. 
+Once this worker is running, any messages you have configured your Salesforce instance to send will be processed.
+  heroku ps:scale worker=1
+
+You're done! Go to your page and you'll be able to create & update accounts.
+  heroku open
